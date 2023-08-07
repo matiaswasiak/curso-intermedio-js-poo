@@ -13,11 +13,7 @@ const matias = {
 // console.log(Object.getOwnPropertyNames(matias));
 // console.log(Object.entries(matias));
 
-console.log(Object.getOwnPropertyDescriptors(matias));
+Object.seal(matias); // No se pueden agregar ni eliminar propiedades, pero si modificarlas
+Object.freeze(matias); // No se pueden agregar, eliminar ni modificar propiedades
 
-Object.defineProperty(matias, "prueba", {
-  value: "hola",
-  enumerable: true,
-  writable: true,
-  configurable: true,
-});
+console.log(Object.getOwnPropertyDescriptors(matias));
