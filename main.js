@@ -1,19 +1,16 @@
-const matias = {
-  name: "Matias",
-  age: 22,
-  approvedCourses: ["Curso 1", "Curso 2"],
-  addCourse(newCourse) {
-    console.log("this", this);
-    console.log("this.approvedCourses", this.approvedCourses);
-    this.approvedCourses.push(newCourse);
+const obj1 = {
+  a: "a",
+  b: "b",
+  c: {
+    d: "d",
+    e: "e",
   },
 };
 
-// console.log(Object.keys(matias));
-// console.log(Object.getOwnPropertyNames(matias));
-// console.log(Object.entries(matias));
+const obj2 = {};
+for (prop in obj1) {
+  obj2[prop] = obj1[prop];
+}
 
-Object.seal(matias); // No se pueden agregar ni eliminar propiedades, pero si modificarlas
-Object.freeze(matias); // No se pueden agregar, eliminar ni modificar propiedades
-
-console.log(Object.getOwnPropertyDescriptors(matias));
+const obj3 = Object.assign({}, obj1);
+const obj4 = Object.create(obj1);
