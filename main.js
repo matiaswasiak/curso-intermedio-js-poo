@@ -37,25 +37,18 @@ function deepCopy(subject) {
   return copySubject;
 }
 
-const studentBase = {
-  name: undefined,
-  email: undefined,
-  age: undefined,
-  approvedCourses: undefined,
-  learningPaths: undefined,
-  socialMedia: {
-    twitter: undefined,
-    instagram: undefined,
-    facebook: undefined,
-  },
-};
-
-const matias = deepCopy(studentBase);
-Object.seal(matias);
-// Object.defineProperties(matias, "name", {
-//   value: "Matias",
-//   configurable: false,
-// });
+// const studentBase = {
+//   name: undefined,
+//   email: undefined,
+//   age: undefined,
+//   approvedCourses: undefined,
+//   learningPaths: undefined,
+//   socialMedia: {
+//     twitter: undefined,
+//     instagram: undefined,
+//     facebook: undefined,
+//   },
+// };
 
 // Object.seal() -> No se pueden agregar ni eliminar propiedades, pero si se pueden modificar las existentes
 // Object.isSealed() -> Devuelve true si el objeto está sellado
@@ -173,3 +166,13 @@ Object.seal(matias);
 //     recursiva(numbersArray);
 //   }
 // }
+
+function createStudent({ name, email, age }) {
+  return { name, age, email };
+}
+
+const matias = createStudent({
+  name: "Matias",
+  age: 22,
+  email: "matiaswasiak@gmail.com",
+});
