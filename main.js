@@ -52,6 +52,7 @@ const studentBase = {
 
 const matias = deepCopy(studentBase);
 Object.seal(matias);
+
 // Object.defineProperties(matias, "name", {
 //   value: "Matias",
 //   configurable: false,
