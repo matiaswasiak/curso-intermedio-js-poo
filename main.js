@@ -71,8 +71,11 @@ const studentBase = {
 // };
 
 // Object.seal() -> No se pueden agregar ni eliminar propiedades, pero si se pueden modificar las existentes
+
 // Object.isSealed() -> Devuelve true si el objeto está sellado
+
 // Object.freeze() -> No se pueden agregar, eliminar ni modificar propiedades
+
 // Object.isFrozen() -> Devuelve true si el objeto está congelado
 
 // const numeritos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
