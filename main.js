@@ -37,18 +37,18 @@ function deepCopy(subject) {
   return copySubject;
 }
 
-const studentBase = {
-  name: undefined,
-  email: undefined,
-  age: undefined,
-  approvedCourses: undefined,
-  learningPaths: undefined,
-  socialMedia: {
-    twitter: undefined,
-    instagram: undefined,
-    facebook: undefined,
-  },
-};
+// const studentBase = {
+//   name: undefined,
+//   email: undefined,
+//   age: undefined,
+//   approvedCourses: undefined,
+//   learningPaths: undefined,
+//   socialMedia: {
+//     twitter: undefined,
+//     instagram: undefined,
+//     facebook: undefined,
+//   },
+// };
 
 // const matias = deepCopy(studentBase);
 // Object.seal(matias);
@@ -190,12 +190,55 @@ const studentBase = {
 //   }
 // }
 
-function createStudent({ name, email, age }) {
-  return { name, age, email };
+function requiredParam(param) {
+  throw new Error(param + " es obligatorio");
+}
+
+function createStudent({
+  name = requiredParam("name"),
+  email = requiredParam("email"),
+  age,
+  twitter,
+  instagram,
+  facebook,
+  approvedCourses = [],
+  learningPaths = [],
+} = {}) {
+  const private = {
+    _name: name,
+  };
+
+  const public = {
+    email,
+    age,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter,
+      instagram,
+      facebook,
+    },
+    readName() {
+      return private["_name"];
+    },
+    changeName(newName) {
+      private["_name"] = newName;
+    },
+  };
+
+  Object.defineProperty(public, "readName", {
+    configurable: false,
+    writable: false,
+  });
+  Objecdt.defineProperty(public, "changeName", {
+    configurable: false,
+    writable: false,
+  });
+
+  return public;
 }
 
 const matias = createStudent({
+  email: "matiaswasiak@correo.com",
   name: "Matias",
-  age: 22,
-  email: "matiaswasiak@gmail.com",
 });
