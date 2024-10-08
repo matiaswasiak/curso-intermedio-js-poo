@@ -37,161 +37,35 @@ function deepCopy(subject) {
   return copySubject;
 }
 
-// const studentBase = {
-//   name: undefined,
-//   email: undefined,
-//   age: undefined,
-//   approvedCourses: undefined,
-//   learningPaths: undefined,
-//   socialMedia: {
-//     twitter: undefined,
-//     instagram: undefined,
-//     facebook: undefined,
-//   },
-// };
-
-// const matias = deepCopy(studentBase);
-// Object.seal(matias);
-
-// Object.defineProperties(matias, "name", {
-//   value: "Matias",
-//   configurable: false,
-// });
-// const studentBase = {
-//   name: undefined,
-//   email: undefined,
-//   age: undefined,
-//   approvedCourses: undefined,
-//   learningPaths: undefined,
-//   socialMedia: {
-//     twitter: undefined,
-//     instagram: undefined,
-//     facebook: undefined,
-//   },
-// };
-
-// Object.seal() -> No se pueden agregar ni eliminar propiedades, pero si se pueden modificar las existentes
-
-// Object.isSealed() -> Devuelve true si el objeto está sellado
-
-// Object.freeze() -> No se pueden agregar, eliminar ni modificar propiedades
-
-// Object.isFrozen() -> Devuelve true si el objeto está congelado
-
-// const numeritos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-// const emojis = [
-//   "✌",
-//   "😂",
-//   "😝",
-//   "😁",
-//   "😱",
-//   "👉",
-//   "🙌",
-//   "🍻",
-//   "🔥",
-//   "🌈",
-//   "☀",
-//   "🎈",
-//   "🌹",
-//   "💄",
-//   "🎀",
-//   "⚽",
-//   "🎾",
-//   "🏁",
-//   "😡",
-//   "👿",
-//   "🐻",
-//   "🐶",
-//   "🐬",
-//   "🐟",
-//   "🍀",
-//   "👀",
-//   "🚗",
-//   "🍎",
-//   "💝",
-//   "💙",
-//   "👌",
-//   "❤",
-//   "😍",
-//   "😉",
-//   "😓",
-//   "😳",
-//   "💪",
-//   "💩",
-//   "🍸",
-//   "🔑",
-//   "💖",
-//   "🌟",
-//   "🎉",
-//   "🌺",
-//   "🎶",
-//   "👠",
-//   "🏈",
-//   "⚾",
-//   "🏆",
-//   "👽",
-//   "💀",
-//   "🐵",
-//   "🐮",
-//   "🐩",
-//   "🐎",
-//   "💣",
-//   "👃",
-//   "👂",
-//   "🍓",
-//   "💘",
-//   "💜",
-//   "👊",
-//   "💋",
-//   "😘",
-//   "😜",
-//   "😵",
-//   "🙏",
-//   "👋",
-//   "🚽",
-//   "💃",
-//   "💎",
-//   "🚀",
-//   "🌙",
-//   "🎁",
-//   "⛄",
-//   "🌊",
-//   "⛵",
-//   "🏀",
-//   "🎱",
-//   "💰",
-//   "👶",
-//   "👸",
-//   "🐰",
-//   "🐷",
-//   "🐍",
-//   "🐫",
-//   "🔫",
-//   "👄",
-//   "🚲",
-//   "🍉",
-//   "💛",
-//   "💚",
-// ];
-// // let numerito = 0;
-
-// // for (let i = 0; i < numeritos.length; i++) {
-// //   numerito = numeritos[i];
-// //   console.log({ i, numerito });
-// // }
-
-// function recursiva(numbersArray) {
-//   if (numbersArray.length !== 0) {
-//     const firstNumber = numbersArray[0];
-//     console.log(firstNumber);
-
-//     numbersArray.shift();
-//     recursiva(numbersArray);
-//   }
-// }
-
 function requiredParam(param) {
   throw new Error(param + " es obligatorio");
+}
+
+function createLearningPath({ name = requiredParam("name"), courses = [] }) {
+  const private = {
+    _name: name,
+    _courses: courses,
+  };
+
+  const public = {
+    get name() {
+      return private["_name"];
+    },
+
+    set name(newName) {
+      if (newName.length != 0) {
+        private["_name"] = newName;
+      } else {
+        console.warn("Tu nombre debe tener al menos un carácter");
+      }
+    },
+
+    get courses() {
+      return private["_courses"];
+    },
+  };
+
+  return public;
 }
 
 function createStudent({
@@ -206,13 +80,13 @@ function createStudent({
 } = {}) {
   const private = {
     _name: name,
+    _learningPaths: learningPaths,
   };
 
   const public = {
     email,
     age,
     approvedCourses,
-    learningPaths,
     socialMedia: {
       twitter,
       instagram,
@@ -229,23 +103,25 @@ function createStudent({
         console.warn("Tu nombre debe tener al menos un carácter");
       }
     },
-    // readName() {
-    //   return private["_name"];
-    // },
-    // changeName(newName) {
-    //   private["_name"] = newName;
-    // },
+
+    get learningPaths() {
+      return private["_learningPaths"];
+    },
+
+    set learningPaths(newLP) {
+      if (!newLP.name) {
+        console.warn("Tu LP no tiene la propiedad name");
+        return;
+      }
+
+      if (!isArray(newLP.courses)) {
+        console.warn("Tu LP no es una lista de cursos");
+        return;
+      }
+
+      private["_learningPaths"].push(newLP);
+    },
   };
-
-  // Object.defineProperty(public, "readName", {
-  //   configurable: false,
-  //   writable: false,
-  // });
-  // Objecdt.defineProperty(public, "changeName", {
-  //   configurable: false,
-  //   writable: false,
-  // });
-
   return public;
 }
 
